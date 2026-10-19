@@ -141,9 +141,9 @@
             <input type="email" id="correo" placeholder="ejemplo@correo.com" required />
             <span class="field-error"></span>
           </div>
-          <div class="field" id="f-contacto">
-            <label for="contacto">Número de contacto</label>
-            <input type="text" id="contacto" inputmode="tel" placeholder="Ingrese su número de contacto" required />
+          <div class="field" id="f-telefono">
+            <label for="telefono">Número de telefono</label>
+            <input type="text" id="telefono" inputmode="tel" placeholder="Ingrese su número de telefono" required />
             <span class="field-error"></span>
           </div>
           <div class="field" id="f-rol">
@@ -241,7 +241,7 @@
       const apellidos = norm(document.getElementById('apellidos').value);
       const cedula    = normDigits(document.getElementById('cedula').value);
       const correo    = normEmail(document.getElementById('correo').value);
-      const contacto  = normDigits(document.getElementById('contacto').value);
+      const telefono  = normDigits(document.getElementById('telefono').value);
       const rol       = norm(document.getElementById('rol').value);
       const municipio = norm(document.getElementById('municipio').value);
 
@@ -250,7 +250,7 @@
       if (!apellidos) { setFieldError('apellidos', 'Ingrese sus apellidos.'); btn.disabled=false; btn.textContent='Enviar inscripción'; return; }
       if (!cedula || cedula.length < 5) { setFieldError('cedula', 'Ingrese un número de cédula válido.'); btn.disabled=false; btn.textContent='Enviar inscripción'; return; }
       if (!correo || !/^\S+@\S+\.\S+$/.test(correo)) { setFieldError('correo', 'Ingrese un correo electrónico válido.'); btn.disabled=false; btn.textContent='Enviar inscripción'; return; }
-      if (!contacto || contacto.length < 7) { setFieldError('contacto', 'Ingrese un número de contacto válido.'); btn.disabled=false; btn.textContent='Enviar inscripción'; return; }
+      if (!telefono || telefono.length < 7) { setFieldError('telefono', 'Ingrese un número de telefono válido.'); btn.disabled=false; btn.textContent='Enviar inscripción'; return; }
       if (!rol) { setFieldError('rol', 'Indique su rol o cargo.'); btn.disabled=false; btn.textContent='Enviar inscripción'; return; }
       if (!municipio) { setFieldError('municipio', 'Seleccione un municipio.'); btn.disabled=false; btn.textContent='Enviar inscripción'; return; }
 
@@ -271,7 +271,7 @@
             };
             const iCed = idxOf('Cédula','Cedula','cedula');
             const iCor = idxOf('Correo','correo','Email','email');
-            const iCon = idxOf('Contacto','contacto','Teléfono','Telefono');
+            const iCon = idxOf('telefono','telefono','Teléfono','Telefono');
 
             for (let i = 1; i < rows.length; i++) {
               const cols = rows[i];
@@ -288,9 +288,9 @@
                 btn.disabled=false; btn.textContent='Enviar inscripción';
                 return;
               }
-              if (iCon >= 0 && normDigits(cols[iCon]) === contacto && contacto !== '') {
-                setFieldError('contacto', '⚠️ Este número de contacto ya está registrado.');
-                showToast('Este número de contacto ya está registrado.', true);
+              if (iCon >= 0 && normDigits(cols[iCon]) === telefono && telefono !== '') {
+                setFieldError('telefono', '⚠️ Este número de telefono ya está registrado.');
+                showToast('Este número de telefono ya está registrado.', true);
                 btn.disabled=false; btn.textContent='Enviar inscripción';
                 return;
               }
@@ -305,7 +305,7 @@
       // ── Enviar ──────────────────────────────────────────────────────────────
       btn.textContent = 'Enviando...';
       const data = {
-        nombres, apellidos, cedula, correo, contacto, rol, municipio,
+        nombres, apellidos, cedula, correo, telefono, rol, municipio,
         fechaRegistro: new Date().toLocaleString('es-CO')
       };
       try {
@@ -319,7 +319,7 @@
     });
 
     // Limpia error al volver a escribir
-    ['nombres','apellidos','cedula','correo','contacto','rol','municipio'].forEach(id => {
+    ['nombres','apellidos','cedula','correo','telefono','rol','municipio'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
       el.addEventListener('input', () => {
